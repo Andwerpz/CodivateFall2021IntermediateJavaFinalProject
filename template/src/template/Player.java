@@ -22,6 +22,10 @@ public class Player {
 		return this.name;
 	}
 	
+	public int getAttack() {
+		return this.attack;
+	}
+	
 	public String toString() {
 		String output = "";
 		output += "Health: " + this.health + "\n";

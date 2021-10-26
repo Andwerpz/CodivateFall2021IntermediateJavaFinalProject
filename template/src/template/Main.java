@@ -31,7 +31,7 @@ public class Main {
 				break;
 				
 			case "2":
-				Battleground.main();
+				Battleground.main(player);
 				break;
 				
 			case "P":
