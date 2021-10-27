@@ -61,12 +61,43 @@ public class Battleground {
 			
 			switch(selection) {
 			case "1":
-				enemies.get(enemies.size() - 1).takeDamage(player.getAttack());
-				System.out.println("The " + enemies.get(enemies.size() - 1).getName() + " took " + player.getAttack() + " damage and now has " + enemies.get(enemies.size() - 1).getHealth() + " HP");
+				boolean selected = false;
+				int selectedEnemy = -1;
+				while(!selected) {
+					System.out.println("Attack which enemy?");
+					for(int i = 0; i < enemies.size(); i++) {
+						Enemy e = enemies.get(i);
+						System.out.println((i + 1) + ": " + e.getName() + " " + e.getHealth() + "/" + e.getMaxHealth());
+					}
+					selectedEnemy = Integer.parseInt(fin.nextLine());
+					selectedEnemy --;
+					if(selectedEnemy >= 0 && selectedEnemy < enemies.size()) {
+						selected = true;
+					}
+				}
+				enemies.get(selectedEnemy).takeDamage(player.getAttack());
+				if(enemies.get(selectedEnemy).getHealth() <= 0) {
+					System.out.println(enemies.get(selectedEnemy).getName() + " has died");
+					enemies.remove(selectedEnemy);
+				}
 				break;
 				
 			case "2":
-				System.out.println(enemies.get(enemies.size() - 1));
+				selected = false;
+				selectedEnemy = -1;
+				while(!selected) {
+					System.out.println("Look at which enemy?");
+					for(int i = 0; i < enemies.size(); i++) {
+						Enemy e = enemies.get(i);
+						System.out.println((i + 1) + ": " + e.getName() + " " + e.getHealth() + "/" + e.getMaxHealth());
+					}
+					selectedEnemy = Integer.parseInt(fin.nextLine());
+					selectedEnemy --;
+					if(selectedEnemy >= 0 && selectedEnemy < enemies.size()) {
+						selected = true;
+					}
+				}
+				System.out.println(enemies.get(selectedEnemy));
 				break;
 				
 			case "3":
@@ -77,6 +108,11 @@ public class Battleground {
 			case "4":
 				System.out.println(player);
 				break;
+			}
+			
+			if(enemies.size() == 0) {
+				System.out.println("All the enemies have been slain");
+				running = false;
 			}
 		}
 		

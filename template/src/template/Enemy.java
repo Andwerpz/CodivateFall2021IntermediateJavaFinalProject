@@ -28,6 +28,8 @@ public class Enemy {
 	
 	private int type;
 	
+	private int maxHealth;
+	
 	private String name;
 	private int health;
 	private int attack;
@@ -39,7 +41,8 @@ public class Enemy {
 		this.type = type;
 		
 		this.name = enemyNames.get(type);
-		this.health = enemyHealths.get(type);
+		this.maxHealth = enemyHealths.get(type);
+		this.health = this.maxHealth;
 		this.attack = enemyAttacks.get(type);
 		this.description = enemyDescriptions.get(type);
 		this.idleDescription = enemyIdleDescriptions.get(type);
@@ -57,8 +60,13 @@ public class Enemy {
 		return this.health;
 	}
 	
+	public int getMaxHealth() {
+		return this.maxHealth;
+	}
+	
 	public void takeDamage(int damage) {
 		this.health -= damage;
+		System.out.println("The " + this.name + " took " + damage + " damage and now has " + this.health + " HP");
 	}
 	
 	public String toString() {
