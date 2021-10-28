@@ -41,16 +41,21 @@ public class Battleground {
 		Scanner fin = new Scanner(System.in);
 		
 		ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-		int enemyAmt = 1;
+		int enemyAmt = (int) (Math.random() * 5) + 1;
 		
 		for(int i = 0; i < enemyAmt; i++) {
-			enemies.add(Enemy.getRandomEnemy());
+			enemies.add(Enemy.getRandomEnemy(player.getLevel()));
 		}
 		
-		System.out.println("A group of " + enemyAmt + " enemies approach you");
+		System.out.println("\nA group of " + enemyAmt + " enemies approach you\n");
 		
 		while(running) {
-			System.out.println(enemies.get(enemies.size() - 1).getIdleDescription() + "\n");
+			
+			
+			//choose a random enemy out of the group for idle description
+			int chosenEnemy = (int) (Math.random() * enemies.size());
+			System.out.println(enemies.get(chosenEnemy).getIdleDescription());
+			
 			System.out.println("What do you want to do?");
 			System.out.println("1: Attack");
 			System.out.println("2: Show Enemy Description");
@@ -69,6 +74,7 @@ public class Battleground {
 						Enemy e = enemies.get(i);
 						System.out.println((i + 1) + ": " + e.getName() + " " + e.getHealth() + "/" + e.getMaxHealth());
 					}
+					String input = fin.nextLine();
 					selectedEnemy = Integer.parseInt(fin.nextLine());
 					selectedEnemy --;
 					if(selectedEnemy >= 0 && selectedEnemy < enemies.size()) {
@@ -109,6 +115,8 @@ public class Battleground {
 				System.out.println(player);
 				break;
 			}
+			
+			System.out.println();
 			
 			if(enemies.size() == 0) {
 				System.out.println("All the enemies have been slain");

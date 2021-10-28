@@ -9,6 +9,8 @@ public class Player {
 	private String name;
 	private int health;
 	private int gold;
+	private int level;
+	private int exp;
 	
 	private ArrayList<Item> inventory;
 	
@@ -19,6 +21,8 @@ public class Player {
 		this.name = name;
 		this.health = this.maxHealth;
 		this.gold = 0;
+		this.level = 0;
+		this.exp = 0;
 		
 		this.inventory = new ArrayList<Item>();
 		this.inventory.add(new Item(1));
@@ -55,6 +59,19 @@ public class Player {
 	
 	public ArrayList<Item> getInventory() {
 		return this.inventory;
+	}
+	
+	public int getLevel() {
+		return this.level;
+	}
+	
+	public int getExp() {
+		return this.exp;
+	}
+	
+	public int getExpToNextLevel() {
+		int expToNextLevel = (int) (Math.pow(this.level, 2)) * 10 - this.level;
+		return expToNextLevel;
 	}
 	
 	public String toString() {

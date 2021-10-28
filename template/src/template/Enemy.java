@@ -18,6 +18,14 @@ public class Enemy {
 		put(1, 1);
 	}};
 	
+	private static HashMap<Integer, Integer> enemyExp = new HashMap<Integer, Integer>() {{
+		put(1, 10);
+	}};
+	
+	private static HashMap<Integer, Integer> enemyGold = new HashMap<Integer, Integer>() {{
+		put(1, 3);
+	}};
+	
 	private static HashMap<Integer, String> enemyDescriptions = new HashMap<Integer, String>() {{
 		put(1, "A small blob of gelatinous fluid. It poses no threat");
 	}};
@@ -27,23 +35,34 @@ public class Enemy {
 	}};
 	
 	private int type;
+	private int level;
 	
 	private int maxHealth;
 	
 	private String name;
 	private int health;
 	private int attack;
+	private int exp;
+	private int gold;
 	private String description;
 	private String idleDescription;
 	
-	public Enemy(int type) {
+	public Enemy(int type, int level) {
+		
+		//stats scale proportionally to sqrt(level)
+		//round stats down
+		
+		double scale = Math.sqrt(level);
 		
 		this.type = type;
+		this.level = level;
 		
 		this.name = enemyNames.get(type);
-		this.maxHealth = enemyHealths.get(type);
-		this.health = this.maxHealth;
-		this.attack = enemyAttacks.get(type);
+		this.maxHealth = (int) (enemyHealths.get(type) * scale);
+		this.health = (int) (this.maxHealth);
+		this.attack = (int) (enemyAttacks.get(type) * scale);
+		this.gold = (int) (enemyGold.get(type) * scale);
+		this.exp = (int) (enemyExp.get(type) * scale);
 		this.description = enemyDescriptions.get(type);
 		this.idleDescription = enemyIdleDescriptions.get(type);
 	}
@@ -53,7 +72,7 @@ public class Enemy {
 	}
 	
 	public String getName() {
-		return this.name;
+		return this.name + " (L" + this.level + ")";
 	}
 	
 	public int getHealth() {
@@ -70,14 +89,16 @@ public class Enemy {
 	}
 	
 	public String toString() {
-		return this.name + ":\n" + 
+		return this.name + " (L" + this.level + "):\n" + 
 			"HP: " + this.health + "\n" +
 			"ATK: " + this.attack + "\n" +
 			this.description + "\n";
 	}
 	
-	public static Enemy getRandomEnemy() {
-		return new Enemy(Enemy.SLIME);
+	public static Enemy getRandomEnemy(int level) {
+		int nextLevel = level + (int) (Math.random() * 4);
+		nextLevel = Math.max(1, nextLevel);
+		return new Enemy(Enemy.SLIME, nextLevel);
 	}
 	
 }

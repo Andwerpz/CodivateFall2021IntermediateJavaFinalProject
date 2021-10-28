@@ -80,7 +80,6 @@ public class Item {
 		}
 		
 		if(Item.itemDefense.containsKey(this.id)) {
-			System.out.println("DEF");
 			this.defense = Item.itemDefense.get(this.id);
 		}
 	}
