@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Battleground {
@@ -25,7 +26,7 @@ public class Battleground {
 			switch(selection) {
 			
 			case "1":
-				System.out.println("The shop was closed");
+				Battleground.shop(player);
 				break;
 				
 			case "2":
@@ -41,6 +42,45 @@ public class Battleground {
 				running = false;
 				break;
 			
+			}
+			
+		}
+		
+	}
+	
+	public static void shop(Player player) {
+		
+		System.out.println("You went to the shop");
+		
+		ArrayList<Item> shopInventory = new ArrayList<Item>();
+		shopInventory.add(new Item(1));
+		
+		boolean running = true;
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		while(running) {
+			
+			System.out.println("What do you want to buy?");
+			
+			for(int i = 0; i < shopInventory.size(); i++) {
+				System.out.println((i + 1) + ": " + shopInventory.get(i).getName());
+			}
+			
+			System.out.println("E: Exit Shop");
+			
+			String selection = scanner.nextLine();
+			
+			if(selection.equals("E")) {
+				System.out.println("Exiting shop");
+				break;
+			}
+			
+			int which = Integer.parseInt(selection);
+			
+			if(which >= 1 && which <= shopInventory.size()) {
+				player.addItem(shopInventory.get(which - 1));
+				shopInventory.remove(which);
 			}
 			
 		}
