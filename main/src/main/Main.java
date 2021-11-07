@@ -11,6 +11,8 @@ public class Main {
 		System.out.println("What is your name?");
 		name = scanner.nextLine();
 		
+		Player player = new Player(20, 5, 0, name);
+		
 		System.out.println("Welcome " + name);
 		
 		boolean running = true;
@@ -32,11 +34,11 @@ public class Main {
 				break;
 				
 			case "2":
-				System.out.println("You went to the Battleground");
+				Battleground.main(player);
 				break;
 				
 			case "P":
-				System.out.println("Your name is " + name);
+				System.out.println(player.toString());
 				break;
 				
 			case "E":
