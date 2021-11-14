@@ -9,19 +9,21 @@ public class Player {
 	private String name;
 	private int health;
 	private int gold;
-	private int level;
+	private int level;	//leveling up makes it so that you can use higher leveled equipment
 	private int exp;
 	
 	private ArrayList<Item> inventory;
 	
+	private boolean weaponEquipped;
 	private int equippedWeapon;
+	private boolean armorEquipped;
 	private int equippedArmor;
 	
 	public Player(String name) {
 		this.name = name;
 		this.health = this.maxHealth;
 		this.gold = 0;
-		this.level = 0;
+		this.level = 1;
 		this.exp = 0;
 		
 		this.inventory = new ArrayList<Item>();
@@ -29,6 +31,8 @@ public class Player {
 		this.inventory.add(new Item(2));
 		this.equippedWeapon = 0;
 		this.equippedArmor = 1;
+		this.armorEquipped = true;
+		this.weaponEquipped = true;
 	}
 	
 	public void heal(int healAmt) {
@@ -67,6 +71,24 @@ public class Player {
 	
 	public int getExp() {
 		return this.exp;
+		
+	}
+	
+	public int getGold() {
+		return this.gold;
+	}
+	
+	public void addExp(int exp) {
+		this.exp += exp;
+		if(this.exp >= this.getExpToNextLevel()) {
+			this.exp -= this.getExpToNextLevel();
+			this.level ++;
+			System.out.println("You Leveled Up! You are now level " + this.level);
+		}
+	}
+	
+	public void addGold(int gold) {
+		this.gold += gold;
 	}
 	
 	public int getExpToNextLevel() {
@@ -76,16 +98,18 @@ public class Player {
 	
 	public String toString() {
 		String output = "";
+		output += "Level: " + this.level + "\n";
 		output += "HP: " + this.getHealth() + "/" + this.getMaxHealth() + "\n";
-		output += "Base ATK: " + this.getAttack() + "\n";
-		output += "Gold: " + this.gold + "\n";
+		output += "ATK: " + this.getAttack() + "\n";
+		output += "Gold: " + this.getGold() + "\n";
+		output += "EXP: " + this.getExp() + "/" + (this.getExpToNextLevel()) + "\n";
 		
-		if(this.equippedWeapon >= 0 && this.equippedWeapon < this.inventory.size()) {
+		if(this.weaponEquipped && this.equippedWeapon >= 0 && this.equippedWeapon < this.inventory.size()) {
 			output += "\n" + "Equipped Weapon:" + "\n";
 			output += this.inventory.get(this.equippedWeapon);
 		}
 		
-		if(this.equippedArmor >= 0 && this.equippedArmor < this.inventory.size()) {
+		if(this.armorEquipped && this.equippedArmor >= 0 && this.equippedArmor < this.inventory.size()) {
 			output += "\n" + "Equipped Armor:" + "\n";
 			output += this.inventory.get(this.equippedArmor);
 		}

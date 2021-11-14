@@ -74,7 +74,6 @@ public class Battleground {
 						Enemy e = enemies.get(i);
 						System.out.println((i + 1) + ": " + e.getName() + " " + e.getHealth() + "/" + e.getMaxHealth());
 					}
-					String input = fin.nextLine();
 					selectedEnemy = Integer.parseInt(fin.nextLine());
 					selectedEnemy --;
 					if(selectedEnemy >= 0 && selectedEnemy < enemies.size()) {
@@ -84,6 +83,9 @@ public class Battleground {
 				enemies.get(selectedEnemy).takeDamage(player.getAttack());
 				if(enemies.get(selectedEnemy).getHealth() <= 0) {
 					System.out.println(enemies.get(selectedEnemy).getName() + " has died");
+					System.out.println("You have gained " + enemies.get(selectedEnemy).getGold() + " gold and " + enemies.get(selectedEnemy).getExp() + " exp");
+					player.addExp(enemies.get(selectedEnemy).getExp());
+					player.addGold(enemies.get(selectedEnemy).getGold());
 					enemies.remove(selectedEnemy);
 				}
 				break;

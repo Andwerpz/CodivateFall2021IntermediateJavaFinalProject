@@ -83,6 +83,14 @@ public class Enemy {
 		return this.maxHealth;
 	}
 	
+	public int getGold() {
+		return this.gold;
+	}
+	
+	public int getExp() {
+		return this.exp;
+	}
+	
 	public void takeDamage(int damage) {
 		this.health -= damage;
 		System.out.println("The " + this.name + " took " + damage + " damage and now has " + this.health + " HP");
