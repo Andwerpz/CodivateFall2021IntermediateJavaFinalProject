@@ -80,7 +80,7 @@ public class Battleground {
 			
 			if(which >= 1 && which <= shopInventory.size()) {
 				player.addItem(shopInventory.get(which - 1));
-				shopInventory.remove(which);
+				shopInventory.remove(which - 1);
 			}
 			
 		}
@@ -91,7 +91,12 @@ public class Battleground {
 		
 		System.out.println("A monster approaches");
 		
-		Monster monster = new Monster(10, 2, "Slime", "A blob of jelly");
+		ArrayList<Monster> monsters = new ArrayList<Monster>();
+		
+		for(int i = 0; i < 3; i++) {
+			int level = (int) (Math.random() * 10) + 1;
+			monsters.add(new Monster(1, level));
+		}
 		
 		Scanner scanner = new Scanner(System.in);
 		
@@ -99,7 +104,7 @@ public class Battleground {
 		
 		while(running) {
 			
-			System.out.println("What do you want to do? Monster HP: " + monster.getHealth());
+			System.out.println("A group of " + monsters.size() + " approaches. What do you want to do?");
 			System.out.println("1: Attack");
 			System.out.println("2: Heal");
 			System.out.println("3: Look at Monster");
@@ -111,8 +116,24 @@ public class Battleground {
 			switch(selection) {
 			
 			case "1":
-				System.out.println("You hit the monster for " + player.getAtk() + " HP");
-				monster.takeDamage(player.getAtk());
+				System.out.println("Which monster do you want to attack?");
+				for(int i = 0; i < monsters.size(); i++) {
+					System.out.println((i + 1) + ": " + 
+							monsters.get(i).getName() + " " + 
+							monsters.get(i).getHealth() + "/" + monsters.get(i).getMaxHealth() + " " +
+							"(L" + monsters.get(i).getLevel() + ")");
+				}
+				
+				int whichEnemy = Integer.parseInt(scanner.nextLine());
+				
+				if(whichEnemy >= 1 && whichEnemy <= monsters.size()) {
+					monsters.get(whichEnemy - 1).takeDamage(player.getAtk());
+					System.out.println("You hit the monster for " + player.getAtk() + " HP");
+					if(monsters.get(whichEnemy - 1).getHealth() <= 0) {
+						System.out.println("You've defeated the " + monsters.get(whichEnemy - 1).getName());
+						monsters.remove(whichEnemy - 1);
+					}
+				}
 				break;
 				
 			case "2":
@@ -120,7 +141,7 @@ public class Battleground {
 				break;
 				
 			case "3":
-				System.out.println(monster.toString());
+				//System.out.println(monster.toString());
 				break;
 				
 			case "P":
@@ -134,9 +155,9 @@ public class Battleground {
 			
 			}
 			
-			if(monster.getHealth() <= 0) {
+			if(monsters.size() <= 0) {
+				System.out.println("You've defeated all the monsters!");
 				running = false;
-				System.out.println("You've defeated the monster");
 			}
 			
 		}
